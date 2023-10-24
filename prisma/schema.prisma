@@ -1,0 +1,32 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User{
+  id Int @id @default(autoincrement())
+  userId String
+  name String?
+  email String @unique
+  video Video[]
+}
+
+model Video {
+  id Int @id @default(autoincrement())
+  name String
+  createAt DateTime  @default(now())
+  startAt Int
+  endAt Int
+  videoUrl String
+  userId Int
+  user User @relation(fields: [userId], references: [id] , onDelete:Cascade)
+  
+  @@index([userId])
+
+}
