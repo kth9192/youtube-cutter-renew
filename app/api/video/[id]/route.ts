@@ -12,7 +12,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
           id: Number(req.nextUrl.pathname.split('/').at(-1)),
         },
       });
-      console.log('delete res', deleteRes);
+
       return NextResponse.json({ status: 200 });
     } else {
       return NextResponse.json({ result: 'session not exist' });

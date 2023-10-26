@@ -4,7 +4,7 @@ import InputRange, { Range } from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
 
 interface SliderProps {
-  min: number;
+  min: number | undefined;
   max: number;
   value: number | Range;
   onChange: (value: number | Range) => void;

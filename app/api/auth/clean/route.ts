@@ -12,8 +12,6 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
         where: { userId: 2 },
       });
 
-      console.log('cleanTmpUser', cleanTmpUser);
-
       return NextResponse.json({ status: 200 });
     } else {
       return NextResponse.json({ result: 'session not exist' });
