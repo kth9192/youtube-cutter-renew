@@ -13,7 +13,7 @@ interface SliderProps {
 
 function Slider({ min, max, value, onChange, onChangeComplete }: SliderProps) {
   return (
-    <div className="flex w-[80%] md:w-[900px] justify-center items-center relative">
+    <div className="flex w-[80%] lg:w-[900px] justify-center items-center relative">
       <div className="flex w-full h-[5px] bg-gray-200 rounded-xl absolute"></div>
       <InputRange
         step={1}

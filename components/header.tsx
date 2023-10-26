@@ -25,7 +25,7 @@ function Header() {
   };
 
   return !pathname.includes('signin') ? (
-    <header className="flex justify-between items-center w-full h-[64px] shadow px-8">
+    <header className="flex justify-between items-center w-full h-[64px] shadow px-4 lg:px-8">
       <div className="cursor-pointer" onClick={moveToHome}>
         <Image src={'/cut.png'} alt={'logo'} width={100} height={100} />
       </div>
