@@ -12,17 +12,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
   //   secret: process.env.NEXTAUTH_SECRET,
   // });
 
-  console.log(session);
-
   try {
     if (session) {
       const getVideoList = await client.video.findMany({
         where: { userId: 2 },
       });
-
-      console.log('====================================');
-      console.log('getVideoList', getVideoList, session?.user?.email, session);
-      console.log('====================================');
 
       return NextResponse.json({ data: getVideoList });
     } else {
@@ -53,8 +47,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
         },
       },
     });
-
-    console.log('create', tmp, createVideo);
 
     return NextResponse.json({});
   } catch (error) {

@@ -3,7 +3,6 @@
 import classnames from 'classnames';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-import ReactPlayer from 'react-player';
 import { Range } from 'react-input-range';
 import { convertIndicatorFormat, minuteTickFormatter } from '@/shared/utils';
 import {
@@ -20,6 +19,8 @@ import {
 } from '@heroicons/react/24/outline';
 import useSWR, { useSWRConfig } from 'swr';
 import { useSession } from 'next-auth/react';
+import Player from '@/components/player';
+import { TimeRangeStore, videoStore } from '@/shared/store/globlaStore';
 
 export default function Home() {
   const { mutate } = useSWRConfig();
@@ -33,42 +34,49 @@ export default function Home() {
 
   const searchInput = useRef<HTMLInputElement>(null);
 
-  const playerRef = useRef<ReactPlayer>(null);
+  // const playerRef = useRef<ReactPlayer>(null);
 
   const [hasMounted, setHasMounted] = useState(false);
 
   const [name, setName] = useState('');
 
   const [videoUrl, setVideoUrl] = useState('');
-  const [timeRange, setTimeRange] = useState<Range>({
-    min: 0,
-    max: 100,
-  });
 
-  const [currentMin, setCurrentMin] = useState<number>(0);
-  const [currentMax, setCurrentMax] = useState<number>(0);
+  const {
+    rangeMin,
+    rangeMax,
+    setRangeMin,
+    setRangeMax,
+    fullLeng,
+    setFullLeng,
+    reset: resetTimeRange,
+  } = TimeRangeStore((state) => state);
+
+  const {
+    currentMin,
+    currentMax,
+    setCurrentMin,
+    setCurrentMax,
+    reset: resetVideoState,
+  } = videoStore((state) => state);
 
   const handleVideoSet = () => {
     searchInput.current && setVideoUrl(searchInput.current?.value);
+    resetVideoState();
+    resetTimeRange();
   };
 
   const handleRemoveVideo = async (id: number) => {
-    const res = await deleteVideo(id).then((res) => {
+    const res = await removeVideoClip(id).then((res) => {
       mutateVideoClips(videoClipList?.filter((clip) => clip.id !== id));
 
       return res;
     });
-
-    console.log('res delete', res);
-  };
-
-  const deleteVideo = async (id: number) => {
-    const res = await removeVideoClip(id);
   };
 
   const handleVideoChange = (url: string, startAt: number, endAt: number) => {
     console.log('====================================');
-    console.log(startAt, endAt);
+    console.log('change video', startAt, endAt);
     console.log('====================================');
 
     setVideoUrl(url);
@@ -80,34 +88,20 @@ export default function Home() {
     const res = await uploadVideoClip(
       createVideoResponse({
         name: name,
-        startAt: currentMin,
-        endAt: currentMax,
+        startAt: currentMin!,
+        endAt: currentMax!,
         videoUrl: videoUrl,
       }),
     ).then((res) => mutate('getvideoClipList'));
-
-    console.log('====================================');
-    console.log(res);
-    console.log('====================================');
   };
 
   useEffect(() => {
     setHasMounted(true);
-
-    console.log('====================================');
-    console.log(videoClipList);
-    console.log('====================================');
   }, []);
 
-  useEffect(() => {
-    console.log('====================================');
-    console.log(error);
-    console.log('====================================');
-  }, [error]);
-
-  useEffect(() => {
-    playerRef.current?.seekTo(currentMin);
-  }, [currentMin]);
+  // useEffect(() => {
+  //   playerRef.current?.seekTo(currentMin);
+  // }, [currentMin]);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
@@ -115,7 +109,7 @@ export default function Home() {
         <h1 className="font-bold text-3xl my-[40px]">Youtube-clipper</h1>
         <div
           className={classnames(
-            'flex w-full xl:w-[900px] gap-2 py-2  border-b-2 ',
+            'flex w-full xl:w-[900px] gap-2 py-1.5  border-b-2',
             typeof document !== 'undefined' &&
               searchInput.current === document.activeElement &&
               'border-red-500',
@@ -124,7 +118,7 @@ export default function Home() {
           <input
             ref={searchInput}
             type="text"
-            className="w-full  h-[48px] bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none focus:ring-0  "
+            className="w-full h-[48px] bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none focus:ring-0  "
             placeholder="주소를 입력해 보세요!"
           />
           <button
@@ -139,60 +133,10 @@ export default function Home() {
         <div className="flex flex-col items-center  gap-4 mt-40">
           {videoUrl ? (
             hasMounted && (
-              <ReactPlayer
-                ref={playerRef}
-                url={videoUrl}
-                playing={true}
-                muted={true}
-                controls={true}
-                onStart={() => {
-                  console.log('====================================');
-                  console.log(
-                    playerRef.current?.getDuration(),
-                    playerRef.current?.getCurrentTime(),
-                  );
-
-                  console.log(
-                    minuteTickFormatter(playerRef.current?.getDuration() ?? 0),
-                  );
-
-                  console.log(
-                    convertIndicatorFormat(
-                      playerRef.current?.getDuration() ?? 0,
-                    ),
-                  );
-
-                  console.log('====================================');
-
-                  setTimeRange({
-                    min: 0,
-                    max: playerRef.current?.getDuration() ?? 0,
-                  });
-
-                  const url = new URL(videoUrl);
-                  const searchParams = url.searchParams;
-
-                  if (searchParams.get('t')) {
-                    setCurrentMin(Number(searchParams.get('t')) ?? 0);
-                    setCurrentMax(playerRef.current?.getDuration() ?? 0);
-                  } else if (
-                    searchParams.get('start') ||
-                    searchParams.get('end')
-                  ) {
-                    setCurrentMin(Number(searchParams.get('start')) ?? 0);
-                    setCurrentMax(
-                      Number(searchParams.get('end')) ??
-                        playerRef.current?.getDuration(),
-                    );
-
-                    playerRef.current?.seekTo(
-                      Number(searchParams.get('start')) ?? 0,
-                    );
-                  } else {
-                    setCurrentMin(playerRef.current?.getCurrentTime() ?? 0);
-                    setCurrentMax(playerRef.current?.getDuration() ?? 0);
-                  }
-                }}
+              <Player
+                videoUrl={videoUrl}
+                currentMin={currentMin}
+                currentMax={currentMax}
               />
             )
           ) : (
@@ -200,12 +144,10 @@ export default function Home() {
           )}
           <div className="mt-6">
             <Slider
-              min={timeRange.min}
-              max={timeRange.max}
+              min={0}
+              max={fullLeng}
               value={{ min: currentMin, max: currentMax }}
               onChange={(value: number | Range) => {
-                console.log(value);
-
                 if (typeof value !== 'number') {
                   setCurrentMin(value.min);
                   setCurrentMax(value.max);
@@ -238,6 +180,9 @@ export default function Home() {
                 className="rounded border border-[#E9E9EA] w-96 shadow-sm p-2"
                 onInput={(event) => {
                   setName(event.currentTarget.value);
+                }}
+                onKeyDown={(event) => {
+                  event.key === 'Enter' && setName(event.currentTarget.value);
                 }}
               />
               <button
