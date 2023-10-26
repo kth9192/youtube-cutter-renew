@@ -19,103 +19,75 @@ const Player = ({ videoUrl, currentMin, currentMax }: PlayerProps) => {
 
   const playerRef = useRef<ReactPlayer>(null);
 
-  useEffect(() => {
-    console.log('rangeMax', rangeMax);
-  }, [rangeMax]);
-
   return (
-    <ReactPlayer
-      ref={playerRef}
-      url={videoUrl}
-      playing={true}
-      muted={true}
-      config={{
-        youtube: {
-          playerVars: {
-            start: currentMin,
-            end: currentMax,
+    <div className="aspect-video relative pt-[56.25%]">
+      <ReactPlayer
+        className="absolute top-0 left-0"
+        width="100%"
+        height="100%"
+        ref={playerRef}
+        url={videoUrl}
+        playing={true}
+        muted={true}
+        config={{
+          youtube: {
+            playerVars: {
+              start: currentMin,
+              end: currentMax,
+            },
           },
-        },
-      }}
-      loop
-      controls={true}
-      onReady={() => {
-        console.log('onstart', currentMin, currentMax);
+        }}
+        loop
+        controls={true}
+        onReady={() => {
+          console.log('onstart', currentMin, currentMax);
 
-        const url = new URL(videoUrl);
-        const searchParams = url.searchParams;
+          const url = new URL(videoUrl);
+          const searchParams = url.searchParams;
 
-        console.log(
-          'onstart t',
-          searchParams.get('t'),
-          parseInt(searchParams.get('t')!),
-          playerRef.current?.getDuration(),
+          console.log(
+            'onstart t',
+            searchParams.get('t'),
+            parseInt(searchParams.get('t')!),
+            playerRef.current?.getDuration(),
 
-          currentMin,
-          currentMax,
-        );
-
-        if (searchParams.get('t')) {
-          setCurrentMin(parseInt(searchParams.get('t')!));
-          setCurrentMax(playerRef.current?.getDuration() ?? 0);
-          setFullLeng(playerRef.current?.getDuration() ?? 0);
-        } else if (searchParams.get('start') || searchParams.get('end')) {
-          setCurrentMin(Number(searchParams.get('start')) ?? 0);
-          setCurrentMax(
-            Number(searchParams.get('end')) ?? playerRef.current?.getDuration(),
-          );
-          setFullLeng(playerRef.current?.getDuration() ?? 0);
-
-          playerRef.current?.seekTo(Number(searchParams.get('start')) ?? 0);
-        } else {
-          setFullLeng(playerRef.current?.getDuration() ?? 0);
-
-          setCurrentMin(currentMin);
-          setCurrentMax(
-            currentMax > 0 ? currentMax : playerRef.current?.getDuration() ?? 0,
+            currentMin,
+            currentMax,
           );
 
-          //   setRangeMin(currentMin ?? 0);
+          if (searchParams.get('t')) {
+            setCurrentMin(parseInt(searchParams.get('t')!));
+            setCurrentMax(playerRef.current?.getDuration() ?? 0);
+            setFullLeng(playerRef.current?.getDuration() ?? 0);
+          } else if (searchParams.get('start') || searchParams.get('end')) {
+            setCurrentMin(Number(searchParams.get('start')) ?? 0);
+            setCurrentMax(
+              Number(searchParams.get('end')) ??
+                playerRef.current?.getDuration(),
+            );
+            setFullLeng(playerRef.current?.getDuration() ?? 0);
 
-          //   setRangeMax(
-          //     currentMax > 0 ? currentMax : playerRef.current?.getDuration() ?? 0,
-          //   );
-          console.log('test', playerRef.current?.getDuration(), currentMax);
-        }
-      }}
-      //   onStart={() => {
-      //     console.log('onstart', currentMin, currentMax);
+            playerRef.current?.seekTo(Number(searchParams.get('start')) ?? 0);
+          } else {
+            setFullLeng(playerRef.current?.getDuration() ?? 0);
 
-      //     const url = new URL(videoUrl);
-      //     const searchParams = url.searchParams;
+            setCurrentMin(currentMin);
+            setCurrentMax(
+              currentMax > 0
+                ? currentMax
+                : playerRef.current?.getDuration() ?? 0,
+            );
 
-      //     console.log(
-      //       'onstart t',
-      //       searchParams.get('t'),
-      //       parseInt(searchParams.get('t')!),
-      //       playerRef.current?.getDuration(),
-      //     );
+            //   setRangeMin(currentMin ?? 0);
 
-      //     if (searchParams.get('t')) {
-      //       setCurrentMin(parseInt(searchParams.get('t')!));
-      //       setCurrentMax(playerRef.current?.getDuration() ?? 0);
-      //       setFullLeng(playerRef.current?.getDuration() ?? 0);
-      //     } else if (searchParams.get('start') || searchParams.get('end')) {
-      //       setCurrentMin(Number(searchParams.get('start')) ?? 0);
-      //       setCurrentMax(
-      //         Number(searchParams.get('end')) ?? playerRef.current?.getDuration(),
-      //       );
-      //       setFullLeng(playerRef.current?.getDuration() ?? 0);
-
-      //       playerRef.current?.seekTo(Number(searchParams.get('start')) ?? 0);
-      //     } else {
-      //       setFullLeng(playerRef.current?.getDuration() ?? 0);
-
-      //       setRangeMin(currentMin ?? 0);
-      //       setRangeMax(currentMax ?? playerRef.current?.getDuration());
-      //     }
-      //   }}
-    />
+            //   setRangeMax(
+            //     currentMax > 0 ? currentMax : playerRef.current?.getDuration() ?? 0,
+            //   );
+            console.log('test', playerRef.current?.getDuration(), currentMax);
+          }
+        }}
+      />
+    </div>
   );
 };
 

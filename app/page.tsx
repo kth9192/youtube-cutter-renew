@@ -104,9 +104,11 @@ export default function Home() {
   // }, [currentMin]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
+    <main className="flex min-h-screen flex-col items-center p-2 lg:p-24">
       <div className="flex flex-col w-full max-w-[1600px] justify-center items-center">
-        <h1 className="font-bold text-3xl my-[40px]">Youtube-clipper</h1>
+        <h1 className="font-bold text-3xl my-[40px] whitespace-nowrap">
+          Youtube-clipper
+        </h1>
         <div
           className={classnames(
             'flex w-full xl:w-[900px] gap-2 py-1.5  border-b-2',
@@ -140,9 +142,9 @@ export default function Home() {
               />
             )
           ) : (
-            <div className="w-[640px] aspect-video bg-black" />
+            <div className="w-full aspect-video bg-black" />
           )}
-          <div className="mt-6">
+          <div className="my-6">
             <Slider
               min={0}
               max={fullLeng}
