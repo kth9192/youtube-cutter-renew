@@ -16,6 +16,7 @@ import {
   MinusCircleIcon,
   ScissorsIcon,
   TrashIcon,
+  PaperClipIcon,
 } from '@heroicons/react/24/outline';
 import useSWR, { useSWRConfig } from 'swr';
 import { useSession } from 'next-auth/react';
@@ -106,9 +107,22 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-2 lg:p-24">
       <div className="flex flex-col w-full max-w-[1600px] justify-center items-center">
-        <h1 className="font-bold text-3xl my-[40px] whitespace-nowrap">
-          Youtube-clipper
-        </h1>
+        <span className="flex items-center mt-[40px]">
+          <Image
+            src={'/youtube-logo.png'}
+            alt={'logo'}
+            width={64}
+            height={64}
+          />
+
+          <h1 className="font-bold text-3xl  whitespace-nowrap">
+            Youtube-clipper
+          </h1>
+        </span>
+
+        <h2 className="mt-[10px] font-medium text-gray-400">
+          좋아하는 유튜브 영상의 구간을 저장해 보세요!
+        </h2>
         <div
           className={classnames(
             'flex w-full xl:w-[900px] gap-2 py-1.5  border-b-2',
@@ -133,6 +147,9 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col items-center  gap-4 mt-40">
+          <div className="font-medium text-gray-400">
+            원하는 시간을 지정하고 영상을 저장해보세요
+          </div>
           {videoUrl ? (
             hasMounted && (
               <Player
@@ -144,7 +161,8 @@ export default function Home() {
           ) : (
             <div className="w-full aspect-video bg-black" />
           )}
-          <div className="my-6">
+          <div className="flex items-center gap-4 my-6">
+            <ScissorsIcon className="w-6 h-6" />
             <Slider
               min={0}
               max={fullLeng}
