@@ -19,14 +19,13 @@ export const uploadVideoClip = async (
 };
 
 export const getVideoClipList = () => {
-  const { data, error, isLoading, mutate } = useSWR<{ data: Video[] }>(
-    'getvideoClipList',
-    clipListFetcher,
-  );
+  const { data, error, isLoading, isValidating, mutate } = useSWR<{
+    data: Video[];
+  }>('getvideoClipList', clipListFetcher);
 
   console.log('video', data);
 
-  return { data: data?.data, error, isLoading, mutate };
+  return { data: data?.data, error, isLoading, mutate, isValidating };
 };
 
 export const removeVideoClip = async (id: number): Promise<AxiosResponse> => {
