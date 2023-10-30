@@ -19,6 +19,10 @@ const Player = ({ videoUrl, currentMin, currentMax }: PlayerProps) => {
 
   const playerRef = useRef<ReactPlayer>(null);
 
+  useEffect(() => {
+    playerRef.current?.seekTo(currentMin ?? 0);
+  }, [currentMin]);
+
   return (
     <div className="aspect-video relative pt-[56.25%]">
       <ReactPlayer
