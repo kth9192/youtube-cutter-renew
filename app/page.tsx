@@ -94,7 +94,7 @@ export default function Home() {
           </h1>
         </span>
 
-        <h2 className="mt-[10px] font-medium text-gray-400">
+        <h2 className="mt-5 font-medium text-gray-400">
           좋아하는 유튜브 영상의 구간을 저장해 보세요!
         </h2>
         <div
