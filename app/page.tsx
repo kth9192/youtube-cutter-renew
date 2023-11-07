@@ -81,7 +81,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-2 lg:p-24">
       <div className="flex flex-col w-full max-w-[1600px] justify-center items-center">
-        <span className="flex items-center mt-[40px]">
+        <span className="flex flex-col items-center mt-[40px]">
           <Image
             src={'/youtube-logo.png'}
             alt={'logo'}
@@ -116,7 +116,7 @@ export default function Home() {
             className="h-[40px] whitespace-nowrap bg-white border-[1px] border-[#3EA6FF] rounded-lg px-4 text-[#3EA6FF] hover:text-white hover:bg-[#3EA6FF] transition ease-in-out"
             onClick={handleVideoSet}
           >
-            Watch video
+            확인
           </button>
         </div>
 
@@ -133,7 +133,7 @@ export default function Home() {
               />
             )
           ) : (
-            <div className="w-full aspect-video bg-black" />
+            <div className="w-full aspect-video bg-white  border border-gray-200 border-[1px]" />
           )}
           <div className="flex items-center gap-4 my-6">
             <ScissorsIcon className="w-6 h-6" />

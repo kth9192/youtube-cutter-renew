@@ -1,7 +1,7 @@
 import { getVideoClipList, removeVideoClip } from '@/libs/client/video';
 import { videoStore } from '@/shared/store/globlaStore';
 import { convertIndicatorFormat } from '@/shared/utils';
-import { TrashIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, PlayCircleIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
 function ClipList() {
@@ -50,16 +50,26 @@ function ClipList() {
             videoClipList.map((video) => (
               <li
                 key={video.id}
-                className="flex w-96 justify-between items-center border-[1px] bg-gray-100 border-none  rounded-lg px-6 py-2 cursor-pointer"
-                onClick={() =>
-                  handleVideoChange(video.videoUrl, video.startAt, video.endAt)
-                }
+                className="flex w-96 justify-between items-center border-[1px] bg-gray-100 border-none  rounded-lg px-6 py-2 "
               >
-                <div className="font-bold ">{`${video.name}`}</div>
+                <div
+                  className="flex items-center gap-1"
+                  onClick={() =>
+                    handleVideoChange(
+                      video.videoUrl,
+                      video.startAt,
+                      video.endAt,
+                    )
+                  }
+                >
+                  <PlayCircleIcon className="w-5 h-5" />
+                  <div className="font-bold cursor-pointer">{`${video.name}`}</div>
+                </div>
+
                 <div className="flex gap-4 font-light text-sm ">
-                  <div>{`${convertIndicatorFormat(
-                    video.startAt,
-                  )} ~ ${convertIndicatorFormat(video.endAt)}`}</div>
+                  <div>{`${Number(
+                    convertIndicatorFormat(video.startAt),
+                  )} ~ ${Number(convertIndicatorFormat(video.endAt))}`}</div>
                   <button
                     type="button"
                     onClick={(event) => {
