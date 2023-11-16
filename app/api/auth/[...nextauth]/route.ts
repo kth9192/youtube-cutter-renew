@@ -106,6 +106,8 @@ export const authOptions: NextAuthOptions = {
               },
             });
 
+            console.log('newuser', newUser);
+
             return newUser;
           }
         } else {

@@ -35,7 +35,7 @@ const initialTimeRange = {
 
 export const videoStore = create<VideoState>((set) => ({
   videoId: undefined,
-  currentMin: -1,
+  currentMin: 0,
   currentMax: 0,
   videoUrl: '',
   setVideoId: (id: number) => set((state) => ({ videoId: id })),
