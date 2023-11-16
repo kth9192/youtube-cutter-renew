@@ -1,3 +1,4 @@
+import { Video } from '@/interface/video';
 import { getVideoClipList, removeVideoClip } from '@/libs/client/video';
 import { videoStore } from '@/shared/store/globlaStore';
 import { convertIndicatorFormat } from '@/shared/utils';
@@ -18,11 +19,17 @@ function ClipList() {
     currentMax,
     setCurrentMin,
     setCurrentMax,
+    setVideoId,
     setVideoUrl,
     reset: resetVideoState,
   } = videoStore((state) => state);
 
-  const handleVideoChange = (url: string, startAt: number, endAt: number) => {
+  const handleVideoChange = (
+    url: string,
+    startAt: number,
+    endAt: number,
+    id: number,
+  ) => {
     console.log('====================================');
     console.log('change video', startAt, endAt);
     console.log('====================================');
@@ -30,11 +37,16 @@ function ClipList() {
     setVideoUrl(url);
     setCurrentMin(startAt);
     setCurrentMax(endAt);
+    setVideoId(id);
   };
 
   const handleRemoveVideo = async (id: number) => {
+    const tmp = videoClipList
+      ? videoClipList.filter((clip) => clip.id !== id)
+      : [];
+
     const res = await removeVideoClip(id).then((res) => {
-      mutateVideoClips(videoClipList?.filter((clip) => clip.id !== id));
+      mutateVideoClips({ data: tmp });
 
       return res;
     });
@@ -59,6 +71,7 @@ function ClipList() {
                       video.videoUrl,
                       video.startAt,
                       video.endAt,
+                      video.id,
                     )
                   }
                 >

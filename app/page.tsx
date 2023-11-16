@@ -54,17 +54,18 @@ export default function Home() {
   } = videoStore((state) => state);
 
   const handleVideoSet = () => {
-    searchInput.current && setVideoUrl(searchInput.current?.value);
     resetVideoState();
     resetTimeRange();
+    searchInput.current && setVideoUrl(searchInput.current?.value);
+
   };
 
   const handleVideoClipping = async () => {
     const res = await uploadVideoClip(
       createVideoResponse({
         name: name,
-        startAt: currentMin!,
-        endAt: currentMax!,
+        startAt: currentMin,
+        endAt: currentMax,
         videoUrl: videoUrl,
       }),
     ).then((res) => mutate('getvideoClipList'));

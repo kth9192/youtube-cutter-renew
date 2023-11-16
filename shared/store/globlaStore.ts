@@ -1,12 +1,14 @@
 import { create } from 'zustand';
 
 interface VideoState {
+  videoId?: number;
   videoUrl: string;
   currentMin: number;
   currentMax: number;
   setCurrentMin: (id: number) => void;
   setCurrentMax: (id: number) => void;
   setVideoUrl: (url: string) => void;
+  setVideoId: (id: number) => void;
   reset: () => void;
 }
 
@@ -21,6 +23,7 @@ interface TimeRangeState {
 }
 
 const initialVideoTime = {
+  videoId: undefined,
   currentMin: 0,
   currentMax: 0,
 };
@@ -31,9 +34,11 @@ const initialTimeRange = {
 };
 
 export const videoStore = create<VideoState>((set) => ({
-  currentMin: 0,
+  videoId: undefined,
+  currentMin: -1,
   currentMax: 0,
   videoUrl: '',
+  setVideoId: (id: number) => set((state) => ({ videoId: id })),
   setCurrentMin: (min: number) => set((state) => ({ currentMin: min })),
   setCurrentMax: (max: number) => set((state) => ({ currentMax: max })),
   setVideoUrl: (url: string) => set((state) => ({ videoUrl: url })),
