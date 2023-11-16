@@ -11,7 +11,9 @@ interface PlayerProps {
 }
 
 const Player = ({ videoUrl, currentMin, currentMax }: PlayerProps) => {
-  const { setCurrentMin, setCurrentMax } = videoStore((state) => state);
+  const { setCurrentMin, setCurrentMax, videoId } = videoStore(
+    (state) => state,
+  );
 
   const { rangeMax, setRangeMin, setRangeMax, setFullLeng } = TimeRangeStore(
     (state) => state,
@@ -60,9 +62,11 @@ const Player = ({ videoUrl, currentMin, currentMax }: PlayerProps) => {
           );
 
           if (searchParams.get('t')) {
-            setCurrentMin(parseInt(searchParams.get('t')!));
-            setCurrentMax(playerRef.current?.getDuration() ?? 0);
-            setFullLeng(playerRef.current?.getDuration() ?? 0);
+            if (playerRef.current) {
+              setCurrentMin(parseInt(searchParams.get('t')!));
+              !videoId && setCurrentMax(playerRef.current?.getDuration());
+              setFullLeng(playerRef.current?.getDuration() ?? 0);
+            }
           } else if (searchParams.get('start') || searchParams.get('end')) {
             setCurrentMin(Number(searchParams.get('start')) ?? 0);
             setCurrentMax(

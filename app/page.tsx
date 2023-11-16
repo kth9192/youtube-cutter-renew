@@ -54,17 +54,17 @@ export default function Home() {
   } = videoStore((state) => state);
 
   const handleVideoSet = () => {
-    searchInput.current && setVideoUrl(searchInput.current?.value);
     resetVideoState();
     resetTimeRange();
+    searchInput.current && setVideoUrl(searchInput.current?.value);
   };
 
   const handleVideoClipping = async () => {
     const res = await uploadVideoClip(
       createVideoResponse({
         name: name,
-        startAt: currentMin!,
-        endAt: currentMax!,
+        startAt: currentMin,
+        endAt: currentMax,
         videoUrl: videoUrl,
       }),
     ).then((res) => mutate('getvideoClipList'));
@@ -94,7 +94,7 @@ export default function Home() {
           </h1>
         </span>
 
-        <h2 className="mt-5 font-medium text-gray-400">
+        <h2 className="mt-[30px] font-medium text-gray-400">
           좋아하는 유튜브 영상의 구간을 저장해 보세요!
         </h2>
         <div
@@ -133,12 +133,12 @@ export default function Home() {
               />
             )
           ) : (
-            <div className="w-full aspect-video bg-white  border border-gray-200 border-[1px]" />
+            <div className="w-full aspect-video bg-white border-[1px] border-gray-200 " />
           )}
-          <div className="flex items-center gap-4 my-6">
+          <div className="flex w-full items-center gap-4 my-6">
             <ScissorsIcon className="w-6 h-6" />
             <Slider
-              min={0}
+              min={-1}
               max={fullLeng}
               value={{ min: currentMin, max: currentMax }}
               onChange={(value: number | Range) => {

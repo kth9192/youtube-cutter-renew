@@ -7,10 +7,18 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
   const session = await getServerSession(authOptions);
 
   try {
-    if (session) {
-      const cleanTmpUser = await client.video.deleteMany({
-        where: { userId: 2 },
-      });
+    if (session && session.user) {
+      if (session.user.name) {
+        const cleanVideo = await client.video.deleteMany({
+          where: { name: session.user.name },
+        });
+      }
+
+      if (session.user.email) {
+        const cleanTmpUser = await client.user.delete({
+          where: { email: session.user.email },
+        });
+      }
 
       return NextResponse.json({ status: 200 });
     } else {
