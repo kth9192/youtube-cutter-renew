@@ -2,6 +2,7 @@ import client from '@/libs/server/client';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { generateRandomNumber } from '@/shared/utils';
 
 declare module 'next-auth' {
   interface User {
@@ -95,7 +96,17 @@ export const authOptions: NextAuthOptions = {
 
             return findUser;
           } else {
-            return null;
+            console.log('user not exist');
+
+            const newUser = await client.user.create({
+              data: {
+                userId: generateRandomNumber(21),
+                name: `testuser${generateRandomNumber(4)}`,
+                email: `${generateRandomNumber(8)}@test.com`,
+              },
+            });
+
+            return newUser;
           }
         } else {
           return null;

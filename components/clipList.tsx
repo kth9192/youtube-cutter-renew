@@ -30,10 +30,6 @@ function ClipList() {
     endAt: number,
     id: number,
   ) => {
-    console.log('====================================');
-    console.log('change video', startAt, endAt);
-    console.log('====================================');
-
     setVideoUrl(url);
     setCurrentMin(startAt);
     setCurrentMax(endAt);

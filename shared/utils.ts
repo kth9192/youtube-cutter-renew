@@ -58,3 +58,15 @@ export const convertIndicatorFormat = (time: number) => {
 const zeroFormatter = (time: number) => {
   return time > 10 ? `${time}` : `0${time}`;
 };
+
+export const generateRandomNumber = (length: number) => {
+  var result = '';
+  var characters = '0123456789'; // 사용할 문자셋
+
+  for (var i = 0; i < length; i++) {
+    var randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
+  }
+
+  return result;
+};

@@ -57,7 +57,6 @@ export default function Home() {
     resetVideoState();
     resetTimeRange();
     searchInput.current && setVideoUrl(searchInput.current?.value);
-
   };
 
   const handleVideoClipping = async () => {
@@ -134,12 +133,12 @@ export default function Home() {
               />
             )
           ) : (
-            <div className="w-full aspect-video bg-white  border border-gray-200 border-[1px]" />
+            <div className="w-full aspect-video bg-white border-[1px] border-gray-200 " />
           )}
-          <div className="flex items-center gap-4 my-6">
+          <div className="flex w-full items-center gap-4 my-6">
             <ScissorsIcon className="w-6 h-6" />
             <Slider
-              min={0}
+              min={-1}
               max={fullLeng}
               value={{ min: currentMin, max: currentMax }}
               onChange={(value: number | Range) => {
