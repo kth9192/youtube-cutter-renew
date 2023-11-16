@@ -76,9 +76,9 @@ function ClipList() {
                 </div>
 
                 <div className="flex gap-4 font-light text-sm ">
-                  <div>{`${Number(
-                    convertIndicatorFormat(video.startAt),
-                  )} ~ ${Number(convertIndicatorFormat(video.endAt))}`}</div>
+                  <div>{`${convertIndicatorFormat(
+                    video.startAt,
+                  )} ~ ${convertIndicatorFormat(video.endAt)}`}</div>
                   <button
                     type="button"
                     onClick={(event) => {

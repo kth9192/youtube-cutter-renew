@@ -138,7 +138,7 @@ export default function Home() {
           <div className="flex w-full items-center gap-4 my-6">
             <ScissorsIcon className="w-6 h-6" />
             <Slider
-              min={-1}
+              min={0}
               max={fullLeng}
               value={{ min: currentMin, max: currentMax }}
               onChange={(value: number | Range) => {

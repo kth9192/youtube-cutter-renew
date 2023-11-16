@@ -49,8 +49,10 @@ export const convertIndicatorFormat = (time: number) => {
   } else if (time >= minuteRef) {
     result = `${zeroFormatter(minute)}:${zeroFormatter(second)}`;
   } else {
-    result = zeroFormatter(second);
+    result = second;
   }
+
+  console.log('time?', result);
 
   return result;
 };
@@ -60,8 +62,8 @@ const zeroFormatter = (time: number) => {
 };
 
 export const generateRandomNumber = (length: number) => {
-  var result = '';
-  var characters = '0123456789'; // 사용할 문자셋
+  let result = '';
+  const characters = '0123456789'; // 사용할 문자셋
 
   for (var i = 0; i < length; i++) {
     var randomIndex = Math.floor(Math.random() * characters.length);

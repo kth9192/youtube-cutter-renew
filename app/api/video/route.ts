@@ -15,7 +15,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   try {
     if (session) {
       const getVideoList = await client.video.findMany({
-        where: { userId: 2 },
+        where: { userId: session.user?.userId },
       });
 
       return NextResponse.json({ data: getVideoList });
@@ -33,6 +33,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
 export async function POST(req: NextRequest, res: NextResponse) {
   const session = await getServerSession(authOptions);
 
+  console.log('userid', session?.user.userId);
+
+  if (!session) {
+    return NextResponse.json({ status: 403 });
+  }
+
   try {
     const tmp: { data: VideoRequest } = await req.json();
 
@@ -43,10 +49,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
         endAt: tmp.data.endAt,
         videoUrl: tmp.data.videoUrl,
         user: {
-          connect: { id: 2 },
+          connect: { email: session?.user?.email ?? '' },
         },
       },
     });
+
+    console.log(createVideo);
 
     return NextResponse.json({});
   } catch (error) {
