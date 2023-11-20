@@ -22,7 +22,7 @@ function SigninPage() {
   }, []);
 
   return (
-    <main className="flex flex-col w-full h-screen justify-center items-center">
+    <main className="flex flex-col w-full h-screen justify-center items-center bg-[#F3F5F8]">
       <span className="font-medium">auto login...</span>
       <ClipLoader color="#36d7b7" />
     </main>

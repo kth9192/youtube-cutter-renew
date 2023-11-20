@@ -25,14 +25,14 @@ function Header() {
   };
 
   return !pathname.includes('signin') ? (
-    <header className="flex justify-between items-center w-full h-[64px] shadow px-4 lg:px-8">
+    <header className="flex justify-between  items-center w-full h-[64px] shadow bg-white px-4 lg:px-8">
       <div className="cursor-pointer" onClick={moveToHome}>
         <Image src={'/cut.png'} alt={'logo'} width={100} height={100} />
       </div>
 
       {session ? (
         <button
-          className="flex justify-center items-center w-fit h-[48px] px-3 rounded-lg hover:text-white hover:bg-red-500"
+          className="flex justify-center items-center w-fit h-[48px] px-3 rounded-lg text-gray-400 hover:text-white hover:bg-red-500"
           type="button"
           onClick={handleLogout}
         >

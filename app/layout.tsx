@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import Header from '@/components/header';
 import AuthSession from '@/app/authSession';
 import { SWRProvider } from '@/app/swrProvider';
+import Toast from '@/components/toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={classnames(inter.className)}>
+      <body className={classnames(inter.className, 'bg-[#F3F5F8]')}>
         <SWRProvider>
           <AuthSession>
             <Header />
