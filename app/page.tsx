@@ -3,10 +3,16 @@
 import ClipList from '@/components/clipList';
 import Player from '@/components/player';
 import Slider from '@/components/slider';
+import Toast from '@/components/toast';
 import { createVideoResponse } from '@/interface/video';
 import { getVideoClipList, uploadVideoClip } from '@/libs/client/video';
-import { TimeRangeStore, videoStore } from '@/shared/store/globlaStore';
-import { ScissorsIcon } from '@heroicons/react/24/outline';
+import {
+  TimeRangeStore,
+  systemStore,
+  videoStore,
+} from '@/shared/store/globlaStore';
+import useAlert from '@/shared/store/hook/useAlert';
+import { ScissorsIcon, CheckBadgeIcon } from '@heroicons/react/24/outline';
 import classnames from 'classnames';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -16,6 +22,7 @@ import { useSWRConfig } from 'swr';
 
 export default function Home() {
   const { mutate } = useSWRConfig();
+  const { visible } = useAlert();
 
   const { data: session } = useSession();
   const {
@@ -50,6 +57,7 @@ export default function Home() {
     setCurrentMax,
     videoUrl,
     setVideoUrl,
+    title,
     reset: resetVideoState,
   } = videoStore((state) => state);
 
@@ -79,7 +87,7 @@ export default function Home() {
   // }, [currentMin]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-2 lg:p-24">
+    <main className="flex min-h-screen flex-col items-center p-2 lg:p-24 ">
       <div className="flex flex-col w-full max-w-[1600px] justify-center items-center">
         <span className="flex flex-col items-center mt-[40px]">
           <Image
@@ -121,9 +129,16 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col items-center  gap-4 mt-40">
-          <div className="font-medium text-gray-400">
-            원하는 시간을 지정하고 영상을 저장해보세요
-          </div>
+          <h1
+            className={classnames(
+              'w-full truncate text-center',
+              title
+                ? 'font-bold text-black text-xl'
+                : 'font-medium text-gray-400',
+            )}
+          >
+            {title || '원하는 시간을 지정하고 영상을 저장해보세요'}
+          </h1>
           {videoUrl ? (
             hasMounted && (
               <Player
@@ -158,36 +173,41 @@ export default function Home() {
             />
           </div>
 
-          {/* <div className="flex">
-            <div className="border-[1px]  px-4 py-2 rounded-l">
-              {convertIndicatorFormat(timeRange.min)}
-            </div>
-            <div className="border-[1px]  px-4 py-2 rounded-r">
-              {convertIndicatorFormat(timeRange.max)}
-            </div>
-          </div> */}
           {session && (
             <>
-              <input
-                type="text"
-                placeholder="이름"
-                className="rounded border border-[#E9E9EA] w-96 shadow-sm p-2"
-                onInput={(event) => {
-                  setName(event.currentTarget.value);
-                }}
-                onKeyDown={(event) => {
-                  event.key === 'Enter' && setName(event.currentTarget.value);
-                }}
-              />
-              <button
-                className="flex justify-center items-center h-[40px] px-[12px] py-2
-          border-[1px] border-green-500 rounded-lg text-green-500 hover:border-transparent hover:bg-green-500 hover:text-white transition-all"
-                onClick={handleVideoClipping}
-              >
-                저장 <ScissorsIcon className="w-[16px]" />
-              </button>
-              <div className="flex flex-col items-center mt-10">
+              <div className="flex flex-col items-center">
+                <input
+                  type="text"
+                  placeholder="이름"
+                  className="rounded border border-[#E9E9EA] w-96 shadow-sm p-2 mb-4"
+                  onInput={(event) => {
+                    setName(event.currentTarget.value);
+                  }}
+                  onKeyDown={(event) => {
+                    event.key === 'Enter' && setName(event.currentTarget.value);
+                  }}
+                />
+                <button
+                  className="flex justify-center items-center w-fit h-[40px] px-[12px] py-2 mb-4
+          border-[1px] bg-white border-green-500 rounded-lg text-green-500 hover:border-transparent hover:bg-green-500 hover:text-white transition-all"
+                  onClick={handleVideoClipping}
+                >
+                  저장 <ScissorsIcon className="w-[16px]" />
+                </button>
+              </div>
+
+              <div className="flex flex-col items-center relative">
                 <div className="font-bold text-lg mb-2">저장 목록</div>
+                {visible && (
+                  <Toast
+                    message={
+                      <div className="flex items-center gap-2 font-bold">
+                        <CheckBadgeIcon className="w-5 text-green-500" />
+                        coppied!
+                      </div>
+                    }
+                  />
+                )}
 
                 <ClipList />
               </div>
