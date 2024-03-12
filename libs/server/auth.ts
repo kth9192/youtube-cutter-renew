@@ -49,8 +49,8 @@ export const authOptions: AuthOptions = {
             return null;
           }
         } catch (error) {
-            console.log(error);
-            
+          console.log(error);
+
           throw error;
         }
       },
@@ -58,5 +58,21 @@ export const authOptions: AuthOptions = {
   ],
   pages: {
     signIn: '/auth/signin',
+  },
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      const isAllowedToSignIn = true;
+      if (isAllowedToSignIn) {
+        return true;
+      } else {
+        // Return false to display a default error message
+        return false;
+        // Or you can return a URL to redirect to:
+        // return '/unauthorized'
+      }
+    },
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
+    },
   },
 };
