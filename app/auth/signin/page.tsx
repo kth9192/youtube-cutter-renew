@@ -12,6 +12,8 @@ function SigninPage() {
       redirect: true,
       callbackUrl: '/',
     });
+
+    console.log('login result', result);
   };
 
   useEffect(() => {
