@@ -6,6 +6,9 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
+      id: 'credentials',
+      name: 'Credentials',
+
       credentials: {
         username: {
           label: 'Username',
@@ -46,6 +49,8 @@ export const authOptions: AuthOptions = {
             return null;
           }
         } catch (error) {
+            console.log(error);
+            
           throw error;
         }
       },
