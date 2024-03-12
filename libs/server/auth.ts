@@ -56,9 +56,9 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
-  //   pages: {
-  //     signIn: '/auth/signin',
-  //   },
+  pages: {
+    signIn: '/auth/signin',
+  },
   callbacks: {
     async redirect({ url, baseUrl }) {
       return baseUrl;
