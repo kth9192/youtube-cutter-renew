@@ -17,7 +17,8 @@ function Header() {
   };
 
   const handleLogin = () => {
-    router.push('/auth/signin');
+    // router.push('/auth/signin');
+    signIn();
   };
 
   const handleLogout = () => {
