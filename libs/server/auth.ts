@@ -1,14 +1,13 @@
 import client from '@/libs/server/client';
 import { generateRandomNumber } from '@/shared/utils';
+import { randomBytes, randomUUID } from 'crypto';
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
-      id: 'credentials',
       name: 'Credentials',
-
       credentials: {
         username: {
           label: 'Username',
@@ -57,12 +56,14 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
-  pages: {
-    signIn: '/auth/signin',
-  },
+  //   pages: {
+  //     signIn: '/auth/signin',
+  //   },
   callbacks: {
     async redirect({ url, baseUrl }) {
       return baseUrl;
     },
   },
+  session: { strategy: 'jwt' },
+  debug: true,
 };
