@@ -48,7 +48,8 @@ export const authOptions: AuthOptions = {
           } else {
             return null;
           }
-        } catch (error: { response: { data: { message: any } } }) {
+        } catch (e) {
+          const error = e as any;
           const errorMessage = error.response.data.message;
           // Redirecting to the login page with error messsage in the URL
           throw new Error(errorMessage);
