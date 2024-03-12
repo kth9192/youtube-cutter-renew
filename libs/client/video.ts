@@ -1,5 +1,5 @@
 import instance from '@/shared/instance';
-import { Video, VideoRequest } from '@/interface/video';
+import { Video, VideoRequest } from '@/app/interface/video';
 import { AxiosResponse } from 'axios';
 import useSWR from 'swr';
 
