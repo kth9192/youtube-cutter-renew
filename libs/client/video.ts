@@ -1,5 +1,5 @@
 import instance from '@/shared/instance';
-import { Video, VideoRequest } from '@/interface/video';
+import { Video, VideoRequest } from '@/app/interface/video';
 import { AxiosResponse } from 'axios';
 import useSWR from 'swr';
 
@@ -22,8 +22,6 @@ export const getVideoClipList = () => {
   const { data, error, isLoading, isValidating, mutate } = useSWR<{
     data: Video[];
   }>('getvideoClipList', clipListFetcher);
-
-  console.log('video', data);
 
   return { data: data?.data, error, isLoading, mutate, isValidating };
 };

@@ -1,23 +1,18 @@
 'use client';
 
-import ClipList from '@/components/clipList';
-import Player from '@/components/player';
-import Slider from '@/components/slider';
-import Toast from '@/components/toast';
-import { createVideoResponse } from '@/interface/video';
+import ClipList from '@/app/components/clipList';
+import Slider from '@/app/components/slider';
+import Player from '@/app/components/player';
+import Toast from '@/app/components/toast';
+import { createVideoResponse } from '@/app/interface/video';
 import { getVideoClipList, uploadVideoClip } from '@/libs/client/video';
-import {
-  TimeRangeStore,
-  systemStore,
-  videoStore,
-} from '@/shared/store/globlaStore';
+import { TimeRangeStore, videoStore } from '@/shared/store/globlaStore';
 import useAlert from '@/shared/store/hook/useAlert';
-import { ScissorsIcon, CheckBadgeIcon } from '@heroicons/react/24/outline';
+import { CheckBadgeIcon, ScissorsIcon } from '@heroicons/react/24/outline';
 import classnames from 'classnames';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-import { Range } from 'react-input-range';
 import { useSWRConfig } from 'swr';
 
 export default function Home() {
@@ -87,7 +82,7 @@ export default function Home() {
   // }, [currentMin]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-2 lg:p-24 ">
+    <main className="flex flex-col items-center min-h-screen p-2 lg:p-24 ">
       <div className="flex flex-col w-full max-w-[1600px] justify-center items-center">
         <span className="flex flex-col items-center mt-[40px]">
           <Image
@@ -97,7 +92,7 @@ export default function Home() {
             height={64}
           />
 
-          <h1 className="font-bold text-3xl  whitespace-nowrap">
+          <h1 className="text-3xl font-bold whitespace-nowrap">
             Youtube-clipper
           </h1>
         </span>
@@ -118,17 +113,21 @@ export default function Home() {
             type="text"
             className="w-full h-[48px] bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none focus:ring-0  "
             placeholder="주소를 입력해 보세요!"
+            onKeyDown={(event) => {
+              event.stopPropagation();
+              event.key === 'Enter' && handleVideoSet();
+            }}
           />
           <button
             type="button"
             className="h-[40px] whitespace-nowrap bg-white border-[1px] border-[#3EA6FF] rounded-lg px-4 text-[#3EA6FF] hover:text-white hover:bg-[#3EA6FF] transition ease-in-out"
             onClick={handleVideoSet}
           >
-            확인
+            영상 가져오기
           </button>
         </div>
 
-        <div className="flex flex-col items-center  gap-4 mt-40">
+        <div className="flex flex-col items-center gap-4 mt-40">
           <h1
             className={classnames(
               'w-full truncate text-center',
@@ -150,25 +149,16 @@ export default function Home() {
           ) : (
             <div className="w-full aspect-video bg-white border-[1px] border-gray-200 " />
           )}
-          <div className="flex w-full items-center gap-4 my-6">
+          <div className="flex items-center w-full gap-4 my-6">
             <ScissorsIcon className="w-6 h-6" />
             <Slider
-              min={0}
               max={fullLeng}
-              value={{ min: currentMin, max: currentMax }}
-              onChange={(value: number | Range) => {
-                if (typeof value !== 'number') {
-                  setCurrentMin(value.min);
-                  setCurrentMax(value.max);
-                }
-              }}
-              onChangeComplete={(value: number | Range) => {
-                console.log('onChangeComplete', value);
+              values={[currentMin, currentMax]}
+              onChange={(value) => {
+                console.log(value);
 
-                if (typeof value !== 'number') {
-                  setCurrentMin(value.min);
-                  setCurrentMax(value.max);
-                }
+                setCurrentMin(value[0]);
+                setCurrentMax(value[1]);
               }}
             />
           </div>
@@ -196,8 +186,8 @@ export default function Home() {
                 </button>
               </div>
 
-              <div className="flex flex-col items-center relative">
-                <div className="font-bold text-lg mb-2">저장 목록</div>
+              <div className="relative flex flex-col items-center">
+                <div className="mb-2 text-lg font-bold">저장 목록</div>
                 {visible && (
                   <Toast
                     message={

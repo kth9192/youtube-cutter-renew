@@ -1,5 +1,5 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { VideoRequest } from '@/interface/video';
+import { VideoRequest } from '@/app/interface/video';
+import { authOptions } from '@/libs/server/auth';
 import client from '@/libs/server/client';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
