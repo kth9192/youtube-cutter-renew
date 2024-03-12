@@ -10,13 +10,14 @@ import { deleteTmpUserData } from '@/libs/client/user';
 function Header() {
   const { data: session } = useSession();
   const pathname = usePathname();
+  const router = useRouter();
 
   const moveToHome = () => {
     redirect('/');
   };
 
   const handleLogin = () => {
-    signIn();
+    router.push('/auth/signin');
   };
 
   const handleLogout = () => {
