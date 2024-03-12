@@ -23,8 +23,6 @@ export const getVideoClipList = () => {
     data: Video[];
   }>('getvideoClipList', clipListFetcher);
 
-  console.log('video', data);
-
   return { data: data?.data, error, isLoading, mutate, isValidating };
 };
 

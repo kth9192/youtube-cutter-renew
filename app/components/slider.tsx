@@ -1,5 +1,6 @@
 'use client';
 
+import { convertSliderFormat } from '@/shared/utils';
 import { randomInt, randomUUID } from 'crypto';
 import React, { useState } from 'react';
 import { Range, getTrackBackground } from 'react-range';
@@ -47,24 +48,25 @@ function Slider({ max, values, onChange }: InputRangeProps) {
             </div>
           </div>
         )}
-        renderThumb={({ props, isDragged }) => (
-          <div
-            {...props}
-            className="flex justify-center items-center w-[20px] h-[20px] bg-red-500 rounded-full"
-            style={{
-              ...props.style,
+        renderThumb={({ props, isDragged }) => {
+          console.log(props);
 
-              boxShadow: '0px 2px 6px #AAA',
-            }}
-          >
+          return (
             <div
-              className="w-[5px] h-4"
-              // style={{
-              //   backgroundColor: isDragged ? '#548BF4' : '#CCC',
-              // }}
-            />
-          </div>
-        )}
+              {...props}
+              className="flex justify-center items-center w-[20px] h-[20px] bg-red-500 rounded-full"
+              style={{
+                ...props.style,
+
+                boxShadow: '0px 2px 6px #AAA',
+              }}
+            >
+              <span className="absolute mt-10 text-xs font-medium whitespace-nowrap">
+                {convertSliderFormat(values[props.key])}
+              </span>
+            </div>
+          );
+        }}
       />
     </div>
   );
