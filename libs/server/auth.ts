@@ -48,10 +48,10 @@ export const authOptions: AuthOptions = {
           } else {
             return null;
           }
-        } catch (error) {
-          console.log(error);
-
-          throw error;
+        } catch (error: { response: { data: { message: any } } }) {
+          const errorMessage = error.response.data.message;
+          // Redirecting to the login page with error messsage in the URL
+          throw new Error(errorMessage);
         }
       },
     }),
