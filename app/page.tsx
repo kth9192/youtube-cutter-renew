@@ -1,7 +1,7 @@
 'use client';
 
 import ClipList from '@/app/components/clipList';
-import Slider from '@/app/components/inputRange';
+import Slider from '@/app/components/slider';
 import Player from '@/app/components/player';
 import Toast from '@/app/components/toast';
 import { createVideoResponse } from '@/app/interface/video';
@@ -113,6 +113,10 @@ export default function Home() {
             type="text"
             className="w-full h-[48px] bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none focus:ring-0  "
             placeholder="주소를 입력해 보세요!"
+            onKeyDown={(event) => {
+              event.stopPropagation();
+              event.key === 'Enter' && handleVideoSet();
+            }}
           />
           <button
             type="button"
