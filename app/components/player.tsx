@@ -1,8 +1,6 @@
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import ReactPlayer from 'react-player';
-import { Range } from 'react-input-range';
-import { convertIndicatorFormat, minuteTickFormatter } from '@/shared/utils';
 import { TimeRangeStore, videoStore } from '@/shared/store/globlaStore';
+import { useEffect, useRef } from 'react';
+import ReactPlayer from 'react-player';
 
 interface PlayerProps {
   videoUrl: string;
@@ -24,6 +22,12 @@ const Player = ({ videoUrl, currentMin, currentMax }: PlayerProps) => {
   useEffect(() => {
     playerRef.current?.seekTo(currentMin ?? 0);
   }, [currentMin]);
+
+  useEffect(() => {
+    setRangeMin(currentMin);
+    setRangeMax(currentMax);
+    setFullLeng(playerRef.current?.getDuration() ?? 0);
+  }, [videoUrl, playerRef.current]);
 
   return (
     <div className="aspect-video relative pt-[56.25%]">

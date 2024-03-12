@@ -12,12 +12,16 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
         const cleanVideo = await client.video.deleteMany({
           where: { name: session.user.name },
         });
+
+        console.log('cleanVideo', cleanVideo);
       }
 
       if (session.user.email) {
         const cleanTmpUser = await client.user.delete({
           where: { email: session.user.email },
         });
+
+        console.log('cleanTmpUser', cleanTmpUser);
       }
 
       return NextResponse.json({ status: 200 });

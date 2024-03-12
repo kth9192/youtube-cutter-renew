@@ -1,4 +1,4 @@
-import { Video } from '@/interface/video';
+import { Video } from '@/app/interface/video';
 import { getVideoClipList, removeVideoClip } from '@/libs/client/video';
 import { systemStore, videoStore } from '@/shared/store/globlaStore';
 import { convertIndicatorFormat } from '@/shared/utils';

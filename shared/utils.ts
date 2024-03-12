@@ -52,8 +52,6 @@ export const convertIndicatorFormat = (time: number) => {
     result = second;
   }
 
-  console.log('time?', result);
-
   return result;
 };
 

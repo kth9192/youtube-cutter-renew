@@ -1,8 +1,9 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { VideoRequest } from '@/interface/video';
+import { VideoRequest } from '@/app/interface/video';
 import client from '@/libs/server/client';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
+import { neon } from '@neondatabase/serverless';
 
 export async function GET(req: NextRequest, res: NextResponse) {
   const session = await getServerSession(authOptions);
