@@ -1,6 +1,3 @@
-import { authOptions } from '@/libs/server/auth';
-import client from '@/libs/server/client';
-import { generateRandomNumber } from '@/shared/utils';
 import NextAuth from 'next-auth';
 
 declare module 'next-auth' {
@@ -70,6 +67,4 @@ declare module 'next-auth' {
 //   },
 // });
 
-const handler = NextAuth(authOptions);
-
-export { handler as GET, handler as POST };
+export { GET, POST } from '@/libs/server/auth';
