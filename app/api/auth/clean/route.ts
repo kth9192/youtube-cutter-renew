@@ -1,24 +1,27 @@
-import { authOptions } from '@/libs/server/auth';
 import client from '@/libs/server/client';
-import { getServerSession } from 'next-auth';
+import { getIronSession } from 'iron-session';
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { SessionData, sessionOptions } from '@/libs/server/auth';
 
 export async function DELETE(req: NextRequest, res: NextResponse) {
-  const session = await getServerSession(authOptions);
+  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
+
+  console.log(session);
 
   try {
-    if (session && session.user) {
-      if (session.user.name) {
+    if (session && session.username) {
+      if (session.username) {
         const cleanVideo = await client.video.deleteMany({
-          where: { name: session.user.name },
+          where: { userId: session.userId },
         });
 
         console.log('cleanVideo', cleanVideo);
       }
 
-      if (session.user.email) {
+      if (session.email) {
         const cleanTmpUser = await client.user.delete({
-          where: { email: session.user.email },
+          where: { userId: session.userId },
         });
 
         console.log('cleanTmpUser', cleanTmpUser);
