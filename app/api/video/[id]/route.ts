@@ -1,7 +1,6 @@
 import { SessionData, sessionOptions } from '@/libs/server/auth';
 import client from '@/libs/server/client';
 import { getIronSession } from 'iron-session';
-import { getServerSession } from 'next-auth';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 

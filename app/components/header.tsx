@@ -24,14 +24,21 @@ function Header() {
     // router.push('/auth/signin');
     console.log('click');
 
-    login('tmpuser', {
-      optimisticData: {
-        isLoggedIn: true,
+    login(
+      {
         username: 'tmpuser',
         userId: generateRandomNumber(21),
-        password: generateRandomNumber(8),
+        email: `testuser${generateRandomNumber(4)}@tes.com`,
       },
-    });
+      {
+        optimisticData: {
+          isLoggedIn: true,
+          username: 'tmpuser',
+          userId: generateRandomNumber(21),
+          password: generateRandomNumber(8),
+        },
+      },
+    );
   };
 
   const handleLogout = () => {

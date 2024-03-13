@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useRef } from 'react';
-import { signIn } from 'next-auth/react';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 function SigninPage() {

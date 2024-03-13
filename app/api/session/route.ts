@@ -1,8 +1,11 @@
+import { deleteTmpUserData } from '@/libs/client/user';
 import {
   SessionData,
   defaultSession,
   sessionOptions,
 } from '@/libs/server/auth';
+import client from '@/libs/server/client';
+import { generateRandomNumber } from '@/shared/utils';
 import { getIronSession } from 'iron-session';
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
@@ -27,8 +30,30 @@ export async function POST(request: NextRequest) {
   session.username = username;
   session.email = email;
   session.userId = userId;
-  session;
   await session.save();
+  console.log('login', session);
+
+  const findUser = await client.user.findFirst({
+    where: {
+      email: session?.email,
+    },
+  });
+
+  if (findUser) {
+    console.log('user exist', findUser);
+  } else {
+    console.log('user not exist');
+
+    const newUser = await client.user.create({
+      data: {
+        userId: userId,
+        name: username,
+        email: email,
+      },
+    });
+
+    console.log('newuser', newUser);
+  }
 
   return Response.json(session);
 }
@@ -47,6 +72,7 @@ export async function GET() {
 // logout
 export async function DELETE() {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
+  deleteTmpUserData();
 
   session.destroy();
 
