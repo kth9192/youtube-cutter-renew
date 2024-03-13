@@ -8,7 +8,7 @@ import client from '@/libs/server/client';
 import { generateRandomNumber } from '@/shared/utils';
 import { getIronSession } from 'iron-session';
 import { cookies } from 'next/headers';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 // login
 export async function POST(request: NextRequest) {
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     console.log('newuser', newUser);
   }
 
-  return Response.json(session);
+  return NextResponse.json(session);
 }
 
 // read session
@@ -63,10 +63,10 @@ export async function GET() {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
 
   if (session.isLoggedIn !== true) {
-    return Response.json(defaultSession);
+    return NextResponse.json(defaultSession);
   }
 
-  return Response.json(session);
+  return NextResponse.json(session);
 }
 
 // logout
@@ -76,5 +76,5 @@ export async function DELETE() {
 
   session.destroy();
 
-  return Response.json(defaultSession);
+  return NextResponse.json(defaultSession);
 }
