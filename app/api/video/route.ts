@@ -1,11 +1,12 @@
 import { VideoRequest } from '@/app/interface/video';
-import { authOptions } from '@/libs/server/auth';
+import { SessionData, sessionOptions } from '@/libs/server/auth';
 import client from '@/libs/server/client';
-import { getServerSession } from 'next-auth';
+import { getIronSession } from 'iron-session';
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  const session = await getServerSession(authOptions);
+  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
 
   // const token = getToken({
   //   req,

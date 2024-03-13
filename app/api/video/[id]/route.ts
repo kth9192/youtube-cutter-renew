@@ -1,10 +1,13 @@
-import { authOptions } from '@/libs/server/auth';
+import { SessionData, sessionOptions } from '@/libs/server/auth';
 import client from '@/libs/server/client';
+import { getIronSession } from 'iron-session';
 import { getServerSession } from 'next-auth';
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function DELETE(req: NextRequest, res: NextResponse) {
-  const session = await getServerSession(authOptions);
+  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
+
   try {
     if (session) {
       const deleteRes = await client.video.deleteMany({
