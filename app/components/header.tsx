@@ -65,7 +65,7 @@ function Header() {
           type="button"
           onClick={handleLogout}
         >
-          로그아웃
+          내 정보 삭제하고 로그아웃
         </button>
       ) : (
         <button
