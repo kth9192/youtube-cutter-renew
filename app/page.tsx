@@ -111,7 +111,7 @@ export default function Home() {
           <input
             ref={searchInput}
             type="text"
-            className="w-full h-[48px] bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none focus:ring-0  "
+            className="w-full h-[48px] bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none focus:ring-0"
             placeholder="주소를 입력해 보세요!"
             onKeyDown={(event) => {
               event.stopPropagation();
