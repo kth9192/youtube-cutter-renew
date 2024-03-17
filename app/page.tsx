@@ -10,16 +10,16 @@ import { TimeRangeStore, videoStore } from '@/shared/store/globlaStore';
 import useAlert from '@/shared/store/hook/useAlert';
 import { CheckBadgeIcon, ScissorsIcon } from '@heroicons/react/24/outline';
 import classnames from 'classnames';
-import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useSWRConfig } from 'swr';
+import useSession from '@/app/useSession';
 
 export default function Home() {
   const { mutate } = useSWRConfig();
   const { visible } = useAlert();
+  const { session, isLoading, login, logout } = useSession();
 
-  const { data: session } = useSession();
   const {
     data: videoClipList,
     error,
@@ -111,7 +111,7 @@ export default function Home() {
           <input
             ref={searchInput}
             type="text"
-            className="w-full h-[48px] bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none focus:ring-0  "
+            className="w-full h-[48px] bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none focus:ring-0"
             placeholder="주소를 입력해 보세요!"
             onKeyDown={(event) => {
               event.stopPropagation();
@@ -163,7 +163,7 @@ export default function Home() {
             />
           </div>
 
-          {session && (
+          {session.isLoggedIn && (
             <>
               <div className="flex flex-col items-center">
                 <input

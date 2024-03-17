@@ -1,11 +1,12 @@
 import { VideoRequest } from '@/app/interface/video';
-import { authOptions } from '@/libs/server/auth';
+import { SessionData, sessionOptions } from '@/libs/server/auth';
 import client from '@/libs/server/client';
-import { getServerSession } from 'next-auth';
+import { getIronSession } from 'iron-session';
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  const session = await getServerSession(authOptions);
+  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
 
   // const token = getToken({
   //   req,
@@ -15,7 +16,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   try {
     if (session) {
       const getVideoList = await client.video.findMany({
-        where: { userId: session.user?.userId },
+        where: { userId: session?.userId },
       });
 
       return NextResponse.json({ data: getVideoList });
@@ -31,9 +32,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  const session = await getServerSession(authOptions);
+  const session = await getIronSession<SessionData>(cookies(), sessionOptions);
 
-  console.log('userid', session?.user.userId);
+  console.log('userid', session?.userId);
 
   if (!session) {
     return NextResponse.json({ status: 403 });
@@ -49,7 +50,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         endAt: tmp.data.endAt,
         videoUrl: tmp.data.videoUrl,
         user: {
-          connect: { email: session?.user?.email ?? '' },
+          connect: { email: session?.email ?? '' },
         },
       },
     });

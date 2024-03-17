@@ -49,8 +49,6 @@ function Slider({ max, values, onChange }: InputRangeProps) {
           </div>
         )}
         renderThumb={({ props, isDragged }) => {
-          console.log(props);
-
           return (
             <div
               {...props}

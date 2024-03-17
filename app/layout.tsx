@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import classnames from 'classnames';
 import Header from '@/app/components/header';
-import AuthSession from '@/app/authSession';
 import { SWRProvider } from '@/app/swrProvider';
 import Toast from '@/app/components/toast';
 
@@ -30,10 +29,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={classnames(inter.className, 'bg-[#F3F5F8]')}>
         <SWRProvider>
-          <AuthSession>
-            <Header />
-            {children}
-          </AuthSession>
+          <Header />
+          {children}
         </SWRProvider>
       </body>
     </html>
