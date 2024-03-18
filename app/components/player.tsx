@@ -30,7 +30,7 @@ const Player = ({ videoUrl, currentMin, currentMax }: PlayerProps) => {
   }, [videoUrl, playerRef.current]);
 
   return (
-    <div className="aspect-video relative pt-[56.25%]">
+    <div className="aspect-video relative pt-[56.25%] ">
       <ReactPlayer
         className="absolute top-0 left-0"
         width="100%"
