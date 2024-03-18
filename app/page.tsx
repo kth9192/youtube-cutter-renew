@@ -147,7 +147,7 @@ export default function Home() {
               />
             )
           ) : (
-            <div className="w-full aspect-video bg-white border-[1px] border-gray-200 " />
+            <div className="w-[384px] aspect-video bg-white border-[1px] border-gray-200 " />
           )}
           <div className="flex items-center w-full gap-4 my-6">
             <ScissorsIcon className="w-6 h-6" />
